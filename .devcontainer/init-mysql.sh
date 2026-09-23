@@ -4,10 +4,16 @@ set -e
 
 service mysql start
 
-mysql <<EOF
-CREATE USER IF NOT EXISTS 'aluno'@'%' IDENTIFIED BY '123@Mudar';
+until mysqladmin ping --silent; do
+  sleep 1
+done
 
-GRANT ALL PRIVILEGES ON *.* TO 'aluno'@'%';
+mysql <<EOF
+CREATE DATABASE IF NOT EXISTS eventos;
+
+CREATE USER IF NOT EXISTS 'lucas'@'%' IDENTIFIED BY '123@Lucas';
+
+GRANT ALL PRIVILEGES ON eventos.* TO 'lucas'@'%';
 
 FLUSH PRIVILEGES;
 EOF
